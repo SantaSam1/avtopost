@@ -1,0 +1,8 @@
+# requirements.txt
+python-telegram-bot
+openai
+python-dotenv
+feedparser
+schedule
+google-genai
+requests
