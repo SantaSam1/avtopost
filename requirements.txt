@@ -4,5 +4,4 @@ openai
 python-dotenv
 feedparser
 schedule
-google-genai
 requests

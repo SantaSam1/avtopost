@@ -30,13 +30,6 @@ OPENROUTER_API_KEYS = [
 ]
 OPENROUTER_API_KEYS = [k for k in OPENROUTER_API_KEYS if k]
 
-# НЕСКОЛЬКО GOOGLE API КЛЮЧЕЙ (опционально)
-GOOGLE_API_KEYS = [
-    os.getenv('GOOGLE_API_KEY'),
-    os.getenv('GOOGLE_API_KEY_2'),
-    os.getenv('GOOGLE_API_KEY_3'),
-]
-GOOGLE_API_KEYS = [k for k in GOOGLE_API_KEYS if k]
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 
@@ -210,31 +203,7 @@ JSON формат:
 Только JSON, без текста до/после."""
 
     # Сначала пробуем Google Gemini
-    for idx, api_key in enumerate(GOOGLE_API_KEYS, 1):
-        try:
-            print(f"   [Google #{idx}] Генерация статьи...")
-            genai.configure(api_key=api_key)
-            model = genai.GenerativeModel('gemini-2.0-flash-exp')
-            response = model.generate_content(prompt)
-            
-            result = response.text.strip()
-            if result.startswith('```json'):
-                result = result[7:-3]
-            elif result.startswith('```'):
-                result = result[3:-3]
-            
-            article = json.loads(result)
-            print(f"   ✅ Статья создана [Google #{idx}]: {len(article['content'])} симв.")
-            return article
         
-        except Exception as e:
-            if "429" in str(e) or "quota" in str(e).lower():
-                print(f"   ⚠️  Google #{idx}: Лимит исчерпан")
-                continue
-            else:
-                print(f"   ❌ Google #{idx}: {str(e)[:80]}")
-                break
-    
     # Расширенный список бесплатных моделей OpenRouter
     models = [
         "google/gemini-2.0-flash-exp:free",
@@ -479,7 +448,6 @@ if __name__ == "__main__":
     print("╚══════════════════════════════════════════════════════════════════╝\n")
     
     print(f"🔑 OpenRouter ключей: {len(OPENROUTER_API_KEYS)}")
-    print(f"🔑 Google API ключей: {len(GOOGLE_API_KEYS)}")
     print(f"📡 RSS источников: {len(NEWS_FEEDS)}\n")
     
     if not OPENROUTER_API_KEYS and not GOOGLE_API_KEYS:
