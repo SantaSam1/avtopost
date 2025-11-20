@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 import schedule
 import json
 import asyncio
-import google.generativeai as genai
+import google.genai as genai
 from io import BytesIO
 import hashlib
 
