@@ -1,7 +1,8 @@
-# requirements.txt
 python-telegram-bot
 openai
 python-dotenv
 feedparser
 schedule
 requests
+flask
+gunicorn # Для стабильности
